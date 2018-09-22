@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Calculator</title>
+  <link rel="stylesheet" type="text/css" href="base.css">
+  <script type="text/javascript" src="js/jquery.js"></script>
+  <script>
+  $(function() {
+      var answer =  "#result p";
+      var input1 ="";
+      var input2 = "";
+      var num = 0;
+      var total = 0;
+      var kigou;
+      var cal_flag = 0;
+
+      //入力値の取得
+      $(".num") .click (function() {
+	    num = $(this).data('no');
+      	if(cal_flag == 0 ) {
+	        input1 += num;
+	        $(answer).html(input1);
+      	} else {
+      		input2 += num;
+      		$(answer).html(input2);
+      	}
+        console.log(input1);
+        console.log(input2);
+        console.log(num);
+
+      });
+
+      //演算の方法を取得
+      $(".kigou").click (function() {
+      	if(input1 !="" && input2 != "") {
+      		switch(kigou) {
+	          case '/':
+	            var a = Number(input1) / Number(input2);
+	            break;
+
+	          case '*':
+	            var a = Number(input1) * Number(input2);
+	            break;
+
+	          case '-':
+	            var a = Number(input1) - Number(input2);
+	            break;
+
+	          case '+':
+	            var a = Number(input1) + Number(input2);
+	            break;
+	        }
+	        cal_flag = 0;
+	        input1 = a;
+	        input2 = "";
+	        kigou = $(this).data('key');
+	        cal_flag = 1;
+	        $(answer).html(a);
+      	} else {
+      		kigou = $(this).data('key');
+	        cal_flag = 1;
+      	}
+      });
+
+      //％クリック時の処理
+      $("#percent") .click (function() {
+        if(cal_flag == 0) {
+      			input1 = input1 / 100;
+      			$(answer).html(input1);
+      	} else {
+      			input2 = input2 / 100;
+      			$(answer).html(input2);
+          }
+      });
+
+      //計算の結果を表示
+      $("#equal") .click (function() {
+        switch(kigou) {
+          case '/':
+            var a = Number(input1) / Number(input2);
+            break;
+
+          case '*':
+            var a = Number(input1) * Number(input2);
+            break;
+
+          case '-':
+            var a = Number(input1) - Number(input2);
+            break;
+
+          case '+':
+            var a = Number(input1) + Number(input2);
+            break;
+
+          case '%':
+            var a = Number(input1) % Number(input2);
+            break;
+        }
+        cal_flag = 0;
+        input1 = a;
+        input2 = "";
+        $(answer).html(a);
+      });
+
+//+/-の処理
+      $("#change_num") .click (function() {
+      	if(cal_flag == 0) {
+      		if(input1.substr(0,1) != '-') {
+      			input1 = '-' + input1;
+      			$(answer).html(input1);
+      		} else {
+      			input1 = input1.substr(1);
+      			$(answer).html(input1);
+      		}
+      	} else {
+      		if(input2.substr(0,1) != '-') {
+      			input2 = '-' + input2;
+      			$(answer).html(input2);
+      		} else {
+      			input2 = input2.substr(1);
+      			$(answer).html(input2);
+      		}
+      	}
+      });
+      //allclear
+      $("#ac").click(function() {
+        input1 = '';
+        input2 = '';
+        cal_flag = 0;
+        $(answer).html('0');
+      });
+  });
+  </script>
+</head>
+<body>
+<div id=main_box>
+  <div id="result">
+    <p>0</p>
+  </div>
+
+  <div id="left">
+    <div id="cal_btn1">
+      <ul>
+        <li id='ac'><p>AC</p></li>
+        <li id='change_num'><p>+/-</p></li>
+        <li id="percent"  data-key= % ><p>%</p></li>
+      </ul>
+    </div>
+    <div id="num_btn">
+      <ul>
+        <li class="num" data-no='7'><p>7</p></li>
+        <li class="num" data-no='8'><p>8</p></li>
+        <li class="num" data-no='9'><p>9</p></li>
+        <li class="num" data-no='4'><p>4</p></li>
+        <li class="num" data-no='5'><p>5</p></li>
+        <li class="num" data-no='6'><p>6</p></li>
+        <li class="num" data-no='1'><p>1</p></li>
+        <li class="num" data-no='2'><p>2</p></li>
+        <li class="num" data-no='3'><p>3</p></li>
+        <li class="num" data-no='0'><p>0</p></li>
+        <li class="num" data-no='.'><p>.</p></li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="right">
+    <div id="cal_btn2">
+      <ul>
+        <li id="waru" class="kigou" data-key= / ><p>÷</p></li>
+        <li id="kake" class="kigou" data-key= * ><p>×</p></li>
+        <li id="hiku" class="kigou" data-key= - ><p>-</p></li>
+        <li id="tasu" class="kigou" data-key= + ><p>+</p></li>
+        <li id="equal" data-key='='><p>=</p></li>
+      </ul>
+    </div>
+  </div>
+
+
+</div>
+</body>
+</html>
